@@ -1,0 +1,23 @@
+name: Build Stackrox Operator Bundle on PPC
+
+on: [ workflow_dispatch, push ]
+
+jobs:
+  build-stackrox-operator-bundles:
+    runs-on: ubuntu-latest-ppc64le
+    
+    steps:
+    - name: Clone Stackrox Repo
+      uses: actions/checkout@v3
+      with:
+        repository: stackrox/stackrox
+        
+
+    - name: Build Operator Bundle image
+      run: make -C operator/ bundle bundle-build
+      
+    - name: Build Operator image
+      run: make -C operator/ build docker-build
+
+    - name: Check that Operator image is runnable
+      run: docker run --rm "quay.io/rhacs-eng/stackrox-operator:$(make --quiet -C operator tag)" --help
