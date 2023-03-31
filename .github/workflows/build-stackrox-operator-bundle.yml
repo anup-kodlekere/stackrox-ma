@@ -20,7 +20,7 @@ jobs:
 
     - name: Build Operator Bundle image
       run: |
-        make -C operator/ bundle bundle-build
+        make -C operator/ bundle-build
       
     - name: Build Operator image
       run: |
