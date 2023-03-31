@@ -11,13 +11,23 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: stackrox/stackrox
+        path: /home/ubuntu/
         
+    - name: Download and Setup deps
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install snap python3.8 python3.8-venv make gcc
+        sudo snap install go --classic --channel=1.19/stable
 
     - name: Build Operator Bundle image
-      run: make -C operator/ bundle bundle-build
+      run: |
+        cd /home/ubuntu/stackrox/stackrox
+        make -C operator/ bundle bundle-build
       
     - name: Build Operator image
-      run: make -C operator/ build docker-build
+      run: |
+        cd /home/ubuntu/stackrox/stackrox
+        make -C operator/ build docker-build
 
     - name: Check that Operator image is runnable
       run: docker run --rm "quay.io/rhacs-eng/stackrox-operator:$(make --quiet -C operator tag)" --help
