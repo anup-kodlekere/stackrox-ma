@@ -14,20 +14,16 @@ jobs:
         
     - name: Download and Setup deps
       run: |
-        pwd
-        ls -lha
         sudo apt-get update -y
-        sudo apt-get install -y snap python3 python3-venv make gcc
+        sudo apt-get install -y snap python3 python3-venv make gcc docker.io
         sudo snap install go --classic --channel=1.19/stable
 
     - name: Build Operator Bundle image
       run: |
-        cd stackrox
         make -C operator/ bundle bundle-build
       
     - name: Build Operator image
       run: |
-        cd stackrox
         make -C operator/ build docker-build
 
     - name: Check that Operator image is runnable
