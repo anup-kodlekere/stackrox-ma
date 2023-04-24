@@ -7,7 +7,13 @@ before_script:
   - docker version
   - go version
   
-script:
-  - git clone --recurse-submodules https://github.com/stackrox/collector && cd collector
-  - git checkout d9865f88b0163cfc8e91ffb6b236762547433d24
-  - BUILD_BUILDER_IMAGE=true make image
+jobs:
+  include:
+    - name: Clone and checkout
+      script:
+        - |
+          git clone --recurse-submodules https://github.com/stackrox/collector && cd collector
+          git checkout d9865f88b0163cfc8e91ffb6b236762547433d24
+  
+    - name: Build image
+      script: BUILD_BUILDER_IMAGE=true make image
