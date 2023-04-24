@@ -1,15 +1,10 @@
 arch: ppc64le
 dist: focal
-
-before_script:
-  - sudo apt-get update -y; sudo apt-get install make gcc snapd docker.io -y;
-  - sudo snap install go --classic --channel=1.19/stable
-  - docker version
-  - go version
   
 jobs:
   include:
     - name: Clone and checkout
+      stage: clone and checkout
       workspaces:
         create:
           name: git_repo
@@ -21,8 +16,15 @@ jobs:
           git checkout d9865f88b0163cfc8e91ffb6b236762547433d24
   
     - name: Build image
+      stage: build
       workspaces:
         use:
           name: git_repo
       stage: build
-      script: BUILD_BUILDER_IMAGE=true make image
+      before_script:
+        - sudo apt-get update -y; sudo apt-get install make gcc snapd docker.io -y;
+        - sudo snap install go --classic --channel=1.19/stable
+      script:
+        - ls -lha
+        - pwd
+        - BUILD_BUILDER_IMAGE=true make image
