@@ -9,4 +9,5 @@ before_script:
   
 script:
   - git clone --recurse-submodules https://github.com/stackrox/collector && cd collector
-  - ARCH=ppc64le BUILD_BUILDER_IMAGE=true make image
+  - git checkout d9865f88b0163cfc8e91ffb6b236762547433d24
+  - BUILD_BUILDER_IMAGE=true make image
