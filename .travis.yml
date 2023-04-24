@@ -7,6 +7,6 @@ before_script:
   - docker version
   - go version
   
- script:
+script:
   - git clone --recurse-submodules https://github.com/stackrox/collector && cd collector
   - ARCH=ppc64le BUILD_BUILDER_IMAGE=true make image
