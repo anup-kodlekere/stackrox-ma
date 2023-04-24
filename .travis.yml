@@ -1,0 +1,12 @@
+arch: ppc64le
+dist: focal
+
+before_script:
+  - sudo apt-get update -y; sudo apt-get install make gcc snapd docker.io -y;
+  - sudo snap install go --classic --channel=1.19/stable
+  - docker version
+  - go version
+  
+ script:
+  - git clone --recurse-submodules https://github.com/stackrox/collector && cd collector
+  - ARCH=ppc64le BUILD_BUILDER_IMAGE=true make image
