@@ -10,12 +10,19 @@ before_script:
 jobs:
   include:
     - name: Clone and checkout
-      stage: clone-checkout
+      workspaces:
+        create:
+          name: git_repo
+          paths: 
+            - "${TRAVIS_BUILD_DIR}/stackrox/collector"
       script:
         - |
           git clone --recurse-submodules https://github.com/stackrox/collector && cd collector
           git checkout d9865f88b0163cfc8e91ffb6b236762547433d24
   
     - name: Build image
+      workspaces:
+        use:
+          name: git_repo
       stage: build
       script: BUILD_BUILDER_IMAGE=true make image
